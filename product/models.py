@@ -16,6 +16,7 @@ class Product(models.Model):
     barcode = models.CharField(max_length=13, unique=True)
     stock_quantity = models.PositiveIntegerField(default=0, blank=True, null=True) # Only for Unit-Based Items
     weight = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
 
 
     def __str__(self):
