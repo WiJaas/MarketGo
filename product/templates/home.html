@@ -1,26 +1,36 @@
-<!-- products_list.html -->
+<!-- home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Product List</h1>
+    <h1>Welcome to the Home Page</h1>
 
-    <ul>
-        {% for product in products %}
-            <li>
-                <h2>{{ product.name }}</h2>
-                <p><strong>Description:</strong> {{ product.description }}</p>
-                <p><strong>Price:</strong> ${{ product.price }}</p>
-                <p><strong>EAN Barcode:</strong> {{ product.barcode }}</p>
+    <form action="{% url 'home' %}" method="get">
+        <label for="barcode">Enter Barcode:</label>
+        <input type="text" id="barcode" name="barcode" required>
+        <button type="submit">Search</button>
+    </form>
 
-                {% if product.category == 'unit' %}
-                    <p><strong>Stock Quantity:</strong> {{ product.stock_quantity }}</p>
-                {% elif product.category == 'weight' %}
-                    <p><strong>Weight:</strong> {{ product.weight }} kg</p>
-                {% endif %}
-            </li>
-        {% endfor %}
+    {% if product %}
+        <h2>{{ product.name }}</h2>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Category:</strong> {{ product.category }}</p>
+        <p><strong>EAN Barcode:</strong> {{ product.barcode }}</p>
+
+        {% if product.category == 'unit' %}
+            <p><strong>Stock Quantity:</strong> {{ product.stock_quantity }}</p>
+        {% elif product.category == 'weight' %}
+            <p><strong>Weight:</strong> {{ product.weight }} kg</p>
+        {% endif %}
+        
+    {% else %}
+        <p><strong>Product not available.</strong></p>
+    {% endif %}
+</body>
+</html>
+
