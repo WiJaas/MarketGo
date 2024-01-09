@@ -73,9 +73,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'MarketGo.wsgi.application'
 
 
+
+# Use database-backed sessions
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 pymysql.install_as_MySQLdb()
 
 

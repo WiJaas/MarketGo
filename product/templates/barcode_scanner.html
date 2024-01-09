@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>barcode_scanner</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- <script src="https://unpkg.com/html5-qrcode@2.3.8/dist/html5-qrcode.min.js"></script> -->
+<script src="{% static 'html5-qrcode.min.js' %}"></script>
+</head>
+<body>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <!-- Use an HTML element with an ID (e.g., 'reader') where the QR code will be displayed -->
+                    <center>
+                        <div style="width: 500px" id="reader"></div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    
+    <!-- barcode_scanner.html -->
+
+<!-- Add your existing HTML code here -->
+
+<script>
+    var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+  
+    function onScanSuccess(decodedText, decodedResult) {
+    //   console.log(`Scan result: ${decodedText}`);
+  
+      // Make an AJAX request to your Django backend
+      fetch("/scan_barcode/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ barcode: decodedText }),
+    })
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log("Response from backend:", data);
+      // Handle the response as needed (e.g., update UI with product details)
+    // })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+        html5QrcodeScanner.clear();
+    }
+  
+    html5QrcodeScanner.render(onScanSuccess);
+  </script>
+  
+    </body>
+    </html>

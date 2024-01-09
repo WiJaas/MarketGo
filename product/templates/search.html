@@ -1,0 +1,29 @@
+<!-- search.html -->
+{% csrf_token %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+
+
+
+{% if product %}
+    <h2>{{ product.name }}</h2>
+    <p>{{ product }}</p>
+{% else %}
+    {% if product_not_found %}
+        <!-- Display a message for product not found -->
+        <p><strong>Product not available.</strong></p>
+    {% else %}
+        <!-- Default content if neither product nor product_not_found is present -->
+        <p><strong>Default content.</strong></p>
+    {% endif %}
+{% endif %}
+
+</body>
+</html>
