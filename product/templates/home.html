@@ -17,37 +17,41 @@
 </head>
 <body>
     <h1>Welcome to the Home Page</h1>
+    <h1>Search for a Product</h1>
 
 
         <!-- Add a button for scanning the barcode -->
         <button type="button" id="scanButton">Scan Product</button>
-
-<!-- 
-
-
-        {% if product %}
-        <h2>{{ product.name }}</h2>
-        Display the product image
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
-        {% endif %}
-        <p><strong>Description:</strong> {{ product.description }}</p>
-        <p><strong>Price:</strong> ${{ product.price }}</p>
-        <p><strong>Category:</strong> {{ product.category }}</p>
-        <p><strong>EAN Barcode:</strong> {{ product.barcode }}</p>
-
-        {% if product.category == 'unit' %}
-            <p><strong>Stock Quantity:</strong> {{ product.stock_quantity }}</p>
-        {% elif product.category == 'weight' %}
-            <p><strong>Weight:</strong> {{ product.weight }} kg</p>
-        {% endif %}
         
+        <form action="{% url 'home_view' %}" method="GET">
+            <label for="barcode">Enter Barcode:</label>
+            <input type="text" id="barcode" name="barcode" required>
+            <button type="submit">Search</button>
+        </form>
+    
+        {% if product %}
+            <h2>{{ product.name }}</h2>
+            <!-- Display the product image -->
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
+            {% endif %}
+            <p><strong>Description:</strong> {{ product.description }}</p>
+            <p><strong>Price:</strong> ${{ product.price }}</p>
+            <p><strong>Category:</strong> {{ product.category }}</p>
+            <p><strong>EAN Barcode:</strong> {{ product.barcode }}</p>
+    
+            {% if product.category == 'unit' %}
+                <p><strong>Stock Quantity:</strong> {{ product.stock_quantity }}</p>
+            {% elif product.category == 'weight' %}
+                <p><strong>Weight:</strong> {{ product.weight }} kg</p>
+            {% endif %}
+    
         {% else %}
-        <p><strong>Product not available.</strong></p>
-        {% endif %} 
-
- -->
-
+            <p><strong>Product not available.</strong></p>
+        {% endif %}
+    </body>
+    </html>
+   
     <!-- Core theme JS-->
     <script src="{% static 'js/scripts.js' %}"></script>
 

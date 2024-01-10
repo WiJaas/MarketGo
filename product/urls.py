@@ -2,7 +2,7 @@ from django.urls import path , include
 from . import views
 
 urlpatterns = [
-    path('', views.home_view),
+    path('', views.home_view, name='home_view'),
     # path('search/', views.scan_barcode, name='search_product'),
     # New URL pattern for search_by_scan
     # path('search_by_scan/', views.search_by_scan, name='search_by_scan'),

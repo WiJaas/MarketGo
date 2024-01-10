@@ -1,13 +1,40 @@
 import json
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.core.serializers import serialize
 from django.urls import reverse
 from .models import Product  # Assuming your Product model is in the same app
 
 def home_view(request):
+    product = None
+    
+    if 'barcode' in request.GET:
+        barcode = request.GET.get('barcode')
 
+        print(barcode)
+        try:
+            # Attempt to find the product by barcode
+            product = Product.objects.get(barcode=barcode)
+            context={'product': product}
+            return render(request, 'home.html', context)
+        except Product.DoesNotExist:
+            # Product not found
+            pass
+            # return render(request, 'home.html')
+            # If no barcode is provided, render the home.html template with an empty context
     return render(request, 'home.html')
+
+
+   
+
+
+
+
+# def search_product_manually(request):
+#     barcode = request.GET['barcode']
+#     product = Product.objects.get(ean_barcode=barcode)
+#     return render(request, 'search_product.html',{'product': product})
+
 
 def scan_view(request):
     return render(request,'scan_logic.html')
@@ -19,6 +46,8 @@ def search_product(request):
         try: #for getting barcode from the post request
             data = json.loads(request.body.decode('utf-8'))
             barcode = data.get('barcode') 
+            print("POST Barcoe#########",barcode)
+
             # Store the barcode in the session
             request.session['barcode'] = barcode
             product = Product.objects.get(barcode=barcode)
@@ -27,15 +56,13 @@ def search_product(request):
                 product_data = serialize('json', [product])
                 return JsonResponse({'success': True, 'product': product_data})
         except Product.DoesNotExist:
-            print("the problem is here")
             return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
-
-
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON data'}, status=400)
 
     elif request.method == "GET":
         barcode = request.session.get('barcode', None)
+        print("Get Barcoe#########",barcode)
 
         if barcode is not None:
             try:
@@ -50,6 +77,12 @@ def search_product(request):
                    # Handle the case when the product is not found, redirect to search.html with a parameter indicating the absence of the product
                     answer= {'product_not_found': True}
                     return render(request, 'search.html', answer)
+    # elif 'manual_search' in request.GET:
+    #         # If manual search is requested
+    #         barcode = request.GET['barcode']
+    #         product = get_object_or_404(Product, barcode=barcode)
+    #         return render(request, 'home.html', {'product': product})
+    
     return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
 
 
