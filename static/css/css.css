@@ -1,60 +1,109 @@
-/* static/css/css.css */
-
+/* Global styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
-}
-
-form {
-    text-align: center;
-    margin-top: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-input {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-}
-
-button {
-    width: 80%;
-    padding: 10px;
-    background-color: #007bff;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  /* Container styles */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #333;
     color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-h2, p {
+    padding: 1rem;
+  }
+  
+  header h1 {
+    margin: 0;
+  }
+  
+  /* Navigation styles */
+  nav {
+    background-color: #555;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 1rem;
+  }
+  
+  nav a:last-child {
+    margin-right: 0;
+  }
+  
+  nav a:hover {
+    color: #ccc;
+  }
+  
+  /* Main content styles */
+  main {
+    padding: 2rem;
+  }
+  
+  /* Footer styles */
+  footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
     text-align: center;
-}
-
-img {
-    display: block;
-    margin: 20px auto;
-    max-width: 100%;
-    height: auto;
-}
-
-/* Responsive styles */
-@media (max-width: 600px) {
-    input, button {
-        width: 100%;
+  }
+  
+  /* Media queries for responsive design */
+  @media (max-width: 768px) {
+    /* Navigation styles for small screens */
+    nav {
+      flex-direction: column;
     }
-}
+  
+    nav a {
+      margin: 0.5rem 0;
+    }
+  
+    /* Main content styles for small screens */
+    main {
+      padding: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Header styles for extra small screens */
+    header {
+      padding: 0.5rem;
+    }
+  
+    header h1 {
+      font-size: 1.5rem;
+    }
+  
+    /* Navigation styles for extra small screens */
+    nav a {
+      margin: 0.25rem 0;
+    }
+  
+    /* Main content styles for extra small screens */
+    main {
+      padding: 0.5rem;
+    }
+  }

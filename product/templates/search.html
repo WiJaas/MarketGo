@@ -1,21 +1,13 @@
 <!-- search.html -->
+{% extends 'base.html'%}
 {% csrf_token %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
-</head>
-<body>
-
+{% block content%}
 {% if product %}
     <h2>{{ product.name }}</h2>
-      <!-- Display the product image -->
-      {% if product.image %}
-      <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
-  {% endif %}
+    <!-- Display the product image -->
+    {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
+{% endif %}
     <p>{{ product }}</p>
 {% else %}
     {% if product_not_found %}
@@ -26,6 +18,7 @@
         <p><strong>Default content.</strong></p>
     {% endif %}
 {% endif %}
+       
+{% endblock%}
 
-</body>
-</html>
+
