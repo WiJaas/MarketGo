@@ -40,10 +40,6 @@
 <script>
 var html5QrcodeScanner;
 function onScanSuccess(decodedText, decodedResult) {
-
-    // console.log(decodedText)
-
-
 // Make an AJAX request to your Django backend
 fetch("{% url 'search_product' %}", {
     method: "POST",
@@ -56,11 +52,14 @@ fetch("{% url 'search_product' %}", {
 .then(response => {
     if (response.ok) {
         // Parse JSON response
+        return response.json();}
+    else if (response.status === 404){
         return response.json();
+        console.error("Error1:", response.status);
     } else {
-        console.error("Error111111111111111111:", response.status);
+        console.error("Error2:", response.status);
         return response.text().then(text => {
-        console.error("#############Response Content2222222222222222222:#############", text);
+        console.error("Response Content1:", text);
         throw new Error("Failed to parse response JSON");
         });
     }
@@ -74,13 +73,12 @@ fetch("{% url 'search_product' %}", {
         // Redirect to a new page or update the UI as needed
         window.location.href = "{% url 'search_product' %}";
     } else {
-        // Handle the case where the server indicates an error
-        console.error("Server Error:", data.error);
-        // Display an error message to the user or take appropriate actions
+        //handles case where the product isn't found
+                window.location.href = "/search_product/"
     }
 })
 .catch(error => {
-    console.error("Response Content33333333333333333:", error.response.text())
+    console.error("Response Content2", error.response.text())
 })
 
 .finally(() => {
@@ -106,8 +104,7 @@ function getCookie(name) {
 
 function onScanError(errorMessage) {
     // handle on error condition, with error message
-    console.log("Error444444444444444444: ", errorMessage);
- 
+    console.log("Error4: ", errorMessage);
 }
 html5QrcodeScanner = new Html5QrcodeScanner(
     "qr-reader", { fps: 10, qrbox: 250 });

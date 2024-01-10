@@ -15,30 +15,22 @@ def scan_view(request):
 
 def search_product(request):
     product = None
-
     if request.method == "POST":
-        try:
+        try: #for getting barcode from the post request
             data = json.loads(request.body.decode('utf-8'))
-            barcode = data.get('barcode')
-            
+            barcode = data.get('barcode') 
             # Store the barcode in the session
             request.session['barcode'] = barcode
-
-            # Attempt to find the product by barcode
-            try:
-                product = Product.objects.get(barcode=barcode)
-            except Product.DoesNotExist:
-                # Product not found
-                return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
-
-            if product:
-                # Product found, return details in the response
+            product = Product.objects.get(barcode=barcode)
+            # Attempt to return the product if he exist 
+            if product: 
                 product_data = serialize('json', [product])
                 return JsonResponse({'success': True, 'product': product_data})
-               
-            else:
-                # Product not found
-                return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
+        except Product.DoesNotExist:
+            print("the problem is here")
+            return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
+
+
         except json.JSONDecodeError:
             return JsonResponse({'success': False, 'error': 'Invalid JSON data'}, status=400)
 
@@ -55,12 +47,9 @@ def search_product(request):
                 return render(request, 'search.html', context)
 
             except Product.DoesNotExist:
-                # Handle the case when the product is not found, redirect to search.html with a parameter indicating the absence of the product
-                return HttpResponseRedirect(reverse('search_product', kwargs={'product_not_found': True}))
-
-        else:
-            return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
-
+                   # Handle the case when the product is not found, redirect to search.html with a parameter indicating the absence of the product
+                    answer= {'product_not_found': True}
+                    return render(request, 'search.html', answer)
     return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
 
 
