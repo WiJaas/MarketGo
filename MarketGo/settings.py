@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'product',
-    'cart'
+    'cart',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'MarketGo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["/templates"],
+        'DIRS': [BASE_DIR / 'MarketGo' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

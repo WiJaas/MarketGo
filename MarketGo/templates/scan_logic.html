@@ -35,7 +35,7 @@
 var html5QrcodeScanner;
 function onScanSuccess(decodedText, decodedResult) {
 // Make an AJAX request to your Django backend
-fetch("{% url 'search_product' %}", {
+fetch("{% url 'product:search_product' %}", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -65,7 +65,7 @@ fetch("{% url 'search_product' %}", {
         console.log("Product Details:", data.product);
 
         // Redirect to a new page or update the UI as needed
-        window.location.href = "{% url 'search_product' %}";
+        window.location.href = "{% url 'product:search_product' %}";
     } else {
         //handles case where the product isn't found
                 window.location.href = "/search_product/"
