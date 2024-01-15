@@ -2,23 +2,52 @@
 {% extends 'base.html'%}
 {% csrf_token %}
 {% block content%}
-{% if product %}
-    <h2>{{ product.name }}</h2>
-    <!-- Display the product image -->
-    {% if product.image %}
-    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 300px;">
-{% endif %}
-    <p>{{ product }}</p>
-{% else %}
-    {% if product_not_found %}
-        <!-- Display a message for product not found -->
-        <p><strong>Product not Found.</strong></p>
-    {% else %}
-        <!-- Default content if neither product nor product_not_found is present -->
-        <p><strong>Default content.</strong></p>
-    {% endif %}
-{% endif %}
-       
+<Section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                {% if product %}
+                    <div class="card mt-5">
+                        <div class="card-header">
+                            <h2>{{ product.name }}</h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Display the product image -->
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid mb-3">
+                            {% endif %}
+                            <p><strong>Description:</strong> {{ product.description }}</p>
+                            <p><strong>Price:</strong> ${{ product.price }}</p>
+                            <p><strong>Category:</strong> {{ product.category }}</p>
+                            <p><strong>EAN Barcode:</strong> {{ product.barcode }}</p>
+
+                            {% if product.category == 'unit' %}
+                                <p><strong>Stock Quantity:</strong> {{ product.stock_quantity }}</p>
+                            {% elif product.category == 'weight' %}
+                                <p><strong>Weight:</strong> {{ product.weight }} kg</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif product_not_found %}
+                    <p class="text-center mt-5"><strong>Product not available.</strong></p>
+                                 
+        
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+                <br/><br/>
+
+
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</Section>
 {% endblock%}
-
-

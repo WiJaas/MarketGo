@@ -3,12 +3,7 @@
 {% load static %}
 
 {% csrf_token %}
-
-
-
     {% block content%}
-
-    
         <!-- Include html5-qrcode.min.js -->
         <script src="{% static 'html5-qrcode.min.js' %}"></script>
 
@@ -21,11 +16,6 @@
 <center><div id="qr-reader" class="qr-reader-custom"><button type="button" id="reader">Scan Barcode</button></div></center>
         </div>
     </div>
-        
-
-
-
-
     <!-- Core theme JS-->
     <script src="{% static 'js/scripts.js' %}"></script>
 
@@ -68,7 +58,7 @@ fetch("{% url 'product:search_product' %}", {
         window.location.href = "{% url 'product:search_product' %}";
     } else {
         //handles case where the product isn't found
-                window.location.href = "/search_product/"
+                window.location.href = "{% url 'product:search_product' %}"
     }
 })
 .catch(error => {

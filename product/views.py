@@ -1,4 +1,5 @@
 import json
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.core.serializers import serialize
@@ -6,19 +7,21 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from .models import Product
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin,View):
     template_name = 'home.html'
+    login_url = '/core/login/'
 
     def get(self, request, *args, **kwargs):
+
         barcode = request.GET.get('barcode')
         product = None
-
         if barcode:
             try:
                 product = Product.objects.get(barcode=barcode)
-            except Product.DoesNotExist:
-                pass
 
+            except Product.DoesNotExist:
+                context = {'product_not_found': True}
+                return render(request, self.template_name, context)
         context = {'product': product}
         return render(request, self.template_name, context)
 
@@ -51,6 +54,7 @@ class SearchProductView(View):
 
     def get(self, request, *args, **kwargs):
         barcode = request.session.get('barcode')
+        print(barcode)
 
         if barcode is not None:
             try:
@@ -60,7 +64,6 @@ class SearchProductView(View):
             except Product.DoesNotExist:
                 # Handle the case when the product is not found, redirect to search.html with a parameter indicating the absence of the product
                 context = {'product_not_found': True}
-
             return render(request, self.template_name, context)
 
         return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)

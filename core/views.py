@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from . forms import SignUpForm
+from .models import Customer 
+
+
 
 class LoginView(View):
     template_name = 'login.html'
@@ -16,12 +17,12 @@ class LoginView(View):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(request, username=username, password=password)
+        customer = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            messages.success(request, ('You Have Been Logged In !'))
-            return redirect('product:home_view')  # Replace 'home' with the actual URL name for the home page
+        if customer is not None:
+            login(request, customer)
+            messages.success(request, ('You Have Been Logged In!'))
+            return redirect('product:home_view')
         else:
             messages.error(request, ('Login failed. Please check your username and password.'))
             return render(request, self.template_name, {})
@@ -38,7 +39,7 @@ class RegisterView(View):
   
     def get(self, request, *args, **kwargs):
         form = SignUpForm()
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form': form})
     
     def post(self, request, *args, **kwargs):
         form = SignUpForm(request.POST)
@@ -46,12 +47,12 @@ class RegisterView(View):
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
+            
             # log in user
-
-            user = authenticate(username=username, password=password)
-            login(request,user)
-            messages.success(request, ("You Have Registered Succefully"))
+            customer= authenticate(username=username, password=password)
+            login(request, customer)
+            messages.success(request, ("You Have Registered Successfully"))
             return redirect("product:home_view")
-        else: 
-            messages.success(request, ("Whoops! There was a problem withyour registration !"))
+        else:
+            messages.error(request, ("Whoops! There was a problem with your registration!"))
             return redirect('core:register')
