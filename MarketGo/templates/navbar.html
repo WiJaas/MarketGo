@@ -19,15 +19,11 @@
                     </ul>
                 </li>
             </ul>
-      
-            <form method="get" action="{% url 'cart:cart_home' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-dark">
-                    <i class="bi-cart-fill me-1"></i>
-                  Cart
-                </button>
-      
-            </form>
+         
+            <div class="input-group-prepend" style="background-color: #e3f2fd;">
+                <span class="input-group-text" id="basic-addon1">@ {{ user.username }}</span>
+              </div>
+           
             {% else %}
             <li class="nav-item"><a class="nav-link" href="{%url 'core:login'%}">Login</a></li>
             <li class="nav-item"><a class="nav-link" href="{%url 'core:register'%}">Register</a></li>

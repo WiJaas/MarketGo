@@ -32,7 +32,7 @@ class ScanView(View):
         return render(request, self.template_name)
 
 class SearchProductView(View):
-    template_name = 'search.html'
+    template_name = 'home.html'
 
     @csrf_exempt
     def post(self, request, *args, **kwargs):

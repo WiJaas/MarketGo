@@ -8,6 +8,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('product.urls')),
     path('core/',include('core.urls')),
-    path('cart/',include('cart.urls',namespace='cart')),
+    # path('cart/',include('cart.urls',namespace='cart')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

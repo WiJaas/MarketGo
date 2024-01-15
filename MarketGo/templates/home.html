@@ -39,15 +39,7 @@
                                 <p><strong>Weight:</strong> {{ product.weight }} kg</p>
                             {% endif %}
                           
-                            <form method="post" action="{% url 'cart:add_to_cart' product.barcode %}">
-                                {% csrf_token %}
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" name="quantity" value="1" min="1">
-                                <button type="submit" class="btn btn-outline-dark">
-                                    <i class="bi-cart-fill me-1"></i>
-                                    Add To Cart
-                                </button>
-                            </form>
+
                       
                         </div>
                         
