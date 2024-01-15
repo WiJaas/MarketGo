@@ -6,7 +6,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 {% if user.is_authenticated %}
-                <li class="nav-item"><a href="{% url 'product:home_view' %}" class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                <li class="nav-item"><a href="{% url 'product:home_view' %}" class="nav-link active" aria-current="page" >Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'core:logout' %}">Logout</a></li>
                 <li class="nav-item dropdown">
@@ -19,10 +19,17 @@
                     </ul>
                 </li>
             </ul>
-         
             <div class="input-group-prepend" style="background-color: #e3f2fd;">
                 <span class="input-group-text" id="basic-addon1">@ {{ user.username }}</span>
               </div>
+              <form method="get" action="{% url 'cart:cart_home' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-dark">
+                    <i class="bi-cart-fill me-1"></i>
+                  Cart
+                </button>
+      
+            </form>
            
             {% else %}
             <li class="nav-item"><a class="nav-link" href="{%url 'core:login'%}">Login</a></li>

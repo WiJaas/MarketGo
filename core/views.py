@@ -55,3 +55,5 @@ class RegisterView(View):
         else:
             messages.success(request, ("Whoops! There was a problem Registering, please try again..."))
             return redirect('core:register')
+
+
