@@ -22,7 +22,7 @@
             <div class="input-group-prepend" style="background-color: #e3f2fd;">
                 <span class="input-group-text" id="basic-addon1">@ {{ user.username }}</span>
               </div>
-              <form method="get" action="{% url 'cart:cart_home' %}">
+              <form method="get" action="{% url 'cart:cart_detail' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>

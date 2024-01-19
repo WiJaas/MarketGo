@@ -11,12 +11,19 @@
                 <button type="button" id="scanButton" class="btn btn-primary">Scan Product</button>
 
                 <form action="{% url 'product:home_view' %}" method="GET" class="mt-4">
+
                     <div class="form-group">
+
                         <label for="barcode">Enter Barcode:</label>
+
                         <input type="text" id="barcode" name="barcode" required class="form-control">
+
                     </div>
+
                     <button type="submit" class="btn btn-primary mt-2">Search</button>
+
                 </form>
+                
                 <br/><br/>
                 {% if product %}
                     <div class="card mt-5">
@@ -35,7 +42,7 @@
 
                             {% if product.category == 'unit' %}
                                 <p><strong>Stock Quantity:</strong> {{ product.stock_quantity }}</p>
-                                <form method="post" action="{% url 'cart:add_to_cart' product.barcode %}">
+                                <form method="post" action="{% url 'cart:cart_add' product.id %}">
                                     {% csrf_token %}
                                     <label for="quantity">Quantity:</label>
                                     <input type="number" name="quantity" value="1" min="1" >
@@ -46,7 +53,8 @@
                                 </form>
                             {% elif product.category == 'weight' %}
                                 <p><strong>Weight:</strong> {{ product.weight }} kg</p>
-                                <form method="post" action="{% url 'cart:add_to_cart' product.barcode %}">
+                                <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                                    {{ cart_product_form }}
                                     {% csrf_token %}
                                     <label for="quantity">Weight (kg):</label>
                                     <input type="number" name="quantity" value="1" min="1" max="1">
@@ -56,10 +64,7 @@
                                     </button>
                                 </form>
                             {% endif %}
-                          
 
-
-                      
                         </div>
                         
                     </div>

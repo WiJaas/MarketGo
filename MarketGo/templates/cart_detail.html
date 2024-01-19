@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+
+
+<h1>Shopping Cart </h1>
+<table class="cart">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <!-- <th>Remove</th> -->
+            <th>Unit Price</th>
+            <th>Price</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        {% for item in cart %}
+        <tr>
+            <td>
+            </br> </br>   
+                <!-- Display the product image -->
+                {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-fluid mb-3">
+                {% endif %}
+            </br> </br>  
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>
+                <form action="{% url 'cart:cart_remove' item.product.id %}" method="POST">
+                    <input type="submit" value="Remove">
+                    {% csrf_token %}
+
+                </form>
+            </td>
+
+            <td class="num">{{ item.price }} dh</td>
+            <td class="num">{{ item.total_price }} dh</td>
+        </tr> 
+        {% endfor %}
+        <tr class="total">
+            <td>Total</td>
+            <td colspan="4"></td>
+            <td class="num">{{ cart.get_total_price }} dh</td>
+        </tr>
+    </br> </br>   
+    </tbody>
+</table>
+
+<p class="text-right">
+    <a type="button" class="btn btn-primary btn-sm" href="{% url 'product:home_view' %}">Continue Shopping</a>
+    <a type="button" class="btn btn-secondary btn-sm" href="#" > Checkout </a>
+</p>
+
+
+{% endblock %}

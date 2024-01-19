@@ -12,18 +12,18 @@ class HomeView(LoginRequiredMixin,View):
     login_url = '/core/login/'
 
     def get(self, request, *args, **kwargs):
-
         barcode = request.GET.get('barcode')
         product = None
         if barcode:
             try:
                 product = Product.objects.get(barcode=barcode)
-
             except Product.DoesNotExist:
                 context = {'product_not_found': True}
                 return render(request, self.template_name, context)
         context = {'product': product}
+       
         return render(request, self.template_name, context)
+    
 
 class ScanView(View):
     template_name = 'scan_logic.html'
@@ -67,3 +67,8 @@ class SearchProductView(View):
             return render(request, self.template_name, context)
 
         return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
+    
+
+
+
+ 
