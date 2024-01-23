@@ -14,7 +14,6 @@ class Cart(object):
     def add(self, product, quantity=1 , override_quantity=False):
         product_id = str(product.id)
 
-        print(f"Adding product {product_id} to cart with quantity {quantity}, override: {override_quantity}")
 
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity':0 , 'price':str(product.price)}
@@ -24,9 +23,10 @@ class Cart(object):
         
         else:
             self.cart[product_id]['quantity']+= quantity
-        
+            
         self.save()
-        print("Cart data after addition:", self.cart)
+    
+
     
     def save(self):
         self.session.modified = True
