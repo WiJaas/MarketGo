@@ -15,16 +15,15 @@ class CartAddView(View):
 
         if form.is_valid():
             cd = form.cleaned_data
-            print(f"Adding product {product_id} to cart with quantity {cd['quantity']}, override: {cd['override']}")
+           
             cart.add(product=product, quantity=cd['quantity'], override_quantity=cd['override'])
-        print("Heyy###############",cart.cart)
+       
         return redirect('cart:cart_detail')
 
 
 class CartDetailView(View):
     def get(self, request):
         cart = Cart(request)
-        print("Cart data in view:", cart.cart)  # Debug: Print cart data to console
         return render(request, 'cart_detail.html', {'cart': cart})
 
 

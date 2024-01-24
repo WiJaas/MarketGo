@@ -21,9 +21,9 @@ class Product(models.Model):
 
     def __str__(self):
         if self.category == self.WEIGHT:
-            return f"{self.name} ({self.category}) - ${self.price:.2f} - {self.description[:50]}... - Barcode: {self.barcode} - Weight: {self.weight} kg"
+            return f"{self.id} -{self.name} ({self.category}) - ${self.price:.2f} - {self.description[:50]}... - Barcode: {self.barcode} - Weight: {self.weight} kg"
         else:
-            return f"{self.name} ({self.category}) - ${self.price:.2f} - {self.description[:50]}... - Barcode: {self.barcode} - Stock Quantity: {self.stock_quantity}"
+            return f"{self.id} -{self.name} ({self.category}) - ${self.price:.2f} - {self.description[:50]}... - Barcode: {self.barcode} - Stock Quantity: {self.stock_quantity}"
         
     def reduce_stock(self, quantity):
         if self.stock_quantity >= quantity:

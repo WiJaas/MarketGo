@@ -7,13 +7,6 @@
 
 
 
-
-
-
-
-
-
-
 {% if cart %}
 
 
@@ -76,7 +69,7 @@
       <h3 class="card-text">{{cart.get_total_price}} dh</h3>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a type="button" class="btn btn-primary btn-sm" href="{% url 'product:home_view' %}">Continue Shopping</a>
-        <a type="button" class="btn btn-secondary btn-sm" href="#" > Checkout </a>
+        <a type="button" class="btn btn-secondary btn-sm" href="{% url 'checkout:checkout' %} "> Checkout </a>
     </div>
     
     </div>

@@ -55,5 +55,8 @@ class RegisterView(View):
         else:
             messages.success(request, ("Whoops! There was a problem Registering, please try again..."))
             return redirect('core:register')
+        
 
-
+class MyAccountView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'myaccount.html')
