@@ -28,9 +28,8 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-6 col-m-3">Quantity</div>
-                <div class="col-6 col-m-3">{{ item.quantity }}</div>
-
+                
+               
             <!-- Force next columns to break to new line -->
             <div class="w-100"></div>
           
@@ -41,16 +40,40 @@
               <div class="col-6 col-m-3">Total_Price</div>
               <div class="col-6 col-m-3">{{ item.total_price}} dh</div>
             </div>
-          </div>
+        
+
     </br>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <form action="{% url 'cart:cart_remove' item.product.id %}" method="POST">
-                <input  class="btn btn-primary me-md-2"  type="submit" value="Remove">
+
+
+          
+<!-- Update Quantity Button -->
+<div class="row">
+    {% if item.category == 'unit' %}
+        <div class="col-12 col-md-6 mb-2">
+            <form action="{% url 'cart:update_quantity' item.product.id %}" method="post" class="d-flex">
                 {% csrf_token %}
+                <button type="submit" name="action" value="decrease" class="btn btn-secondary">-</button>
+                <span class="mx-2">{{ item.quantity }}</span>
+                <button type="submit" name="action" value="increase" class="btn btn-secondary">+</button>
             </form>
-       
-            </div>
         </div>
+    {% endif %}
+    
+    <div class="col-12 col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+        <form action="{% url 'cart:cart_remove' item.product.id %}" method="POST">
+            <input class="btn btn-primary me-md-2" type="submit" value="Remove">
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
+
+        
+
+
+    </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -59,10 +82,19 @@
 
 {% endfor %}
 
+<div class="card my-4">
+    <div class="card-body">
+        <h5 class="card-title">Total</h5>
+        <h3 class="card-text">{{ cart.get_total_price }} dh</h3>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <a type="button" class="btn btn-primary btn-sm me-2" href="{% url 'product:home_view' %}">Continue Shopping</a>
+            <a type="button" class="btn btn-secondary btn-sm" href="{% url 'checkout:checkout' %}">Checkout</a>
+        </div>
+    </div>
+</div>
 
 
-
-
+<!-- 
 <div class="card" style="margin: 20px;"  >
     <div class="card-body" sty>
       <h5 class="card-title">Total</h5>
@@ -73,7 +105,7 @@
     </div>
     
     </div>
-  </div>
+  </div> -->
 
 
 {% else %}
@@ -100,7 +132,4 @@
 </br></br> 
 {% endif%}
 {% endblock %}
-
-
-
 

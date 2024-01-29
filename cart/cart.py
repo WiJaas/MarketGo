@@ -1,5 +1,4 @@
 from django.conf import settings
-from checkout.models import OrderItem
 from product.models import Product
 from decimal import Decimal
 
@@ -9,24 +8,32 @@ class Cart(object):
         # Initialize Cart
 
         self.session = request.session
+        
         self.cart = self.session.setdefault(settings.CART_SESSION_ID, {})
 
 
-    def add(self, product, quantity=1 , override_quantity=False):
+
+    def add(self, product, quantity=1, override_quantity=False):
         product_id = str(product.id)
 
         price = '{:.2f}'.format(float(product.price))
 
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity':0 , 'price':price}
+            self.cart[product_id] = {'quantity': 0, 'price': price}
 
         if override_quantity:
-            self.cart[product_id]['quantity']=quantity
-        
+            self.cart[product_id]['quantity'] = quantity
         else:
-            self.cart[product_id]['quantity']+= quantity
-            
+            if product.category == 'unit':
+                self.cart[product_id]['quantity'] += quantity
+            elif product.category == 'weight' and self.cart[product_id]['quantity'] == 0:
+                # Only add the weight-based product if it hasn't been added before
+                self.cart[product_id]['quantity'] += quantity
+
         self.save()
+
+
+    
     
 
     
@@ -40,8 +47,6 @@ class Cart(object):
             del self.cart[product_id]
             self.save()
 
-
-   
     def __iter__(self):
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
@@ -53,15 +58,18 @@ class Cart(object):
             if prod is None:
                 raise ValueError("Product object is None")
             cart[str(prod.id)]['product'] = prod
-            print(f"Product {product_id} added to cart with name {prod.name}")
+        #     print(f"Product {product_id} added to cart with name {prod.name}")
+            cart[product_id]['category'] = prod.category 
 
 
-        print("Cart dictionary:", cart)  # Debug: Print cart dictionary to console
+        # print("Cart dictionary:", cart)  # Debug: Print cart dictionary to console
 
         for item in cart.values():
             item['price']=Decimal(item['price'])
             #Calculate total price for an item 
             item['total_price'] = item['price'] * item['quantity']
+            item['category'] = item['category']  # Use get method to avoid KeyError
+
             yield item
 
 
@@ -78,3 +86,15 @@ class Cart(object):
         self.save()
 
 
+    def update_quantity(self, product_id, quantity_change):
+        product_id = str(product_id)
+
+        if product_id in self.cart:
+            self.cart[product_id]['quantity'] += quantity_change
+
+
+            if self.cart[product_id]['quantity'] <= 0:
+                # Remove the product if the quantity becomes zero or negative
+                del self.cart[product_id]
+
+            self.save()

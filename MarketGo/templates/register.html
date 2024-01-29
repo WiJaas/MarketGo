@@ -3,32 +3,49 @@
 {% csrf_token %}
 
         <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Register</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Register For User Account !</p>
-                </div>
-            </div>
-        </header>
-       <div class="container">
-        <div class="row">
+    
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-7">
         
-                <div class="col-md-6 offset-md-3">
-                    <br/> <br/> 
-                    <form method="POST" action="{% url 'core:register' %}">
-                        {% csrf_token %}
+            
+            </br>  </br>
+                <center>
+                    <div class="col-8">
+                        <br/> <br/> 
+                        
+ <form method="POST" action="{% url 'core:register' %}">
+    {% csrf_token %}
 
-                        {{form.as_p}}
+    {{form.as_p}}
 
-                        <br/><br/>
-                        <button type="submit" class="btn btn-secondary"> Register </button>
-                      </form>
-
-<br/><br/>
-
+    <br/><br/>
+    <button type="submit" class="btn btn-secondary"> Register </button>
+  </form>
+    <br/><br/>
+    
+                    </div>
+                </center>
                 </div>
-       
-        </div>
-       </div>
+
+
+
+                
+                <div class="col-5">
+                </br>  </br>
+            </br>  </br>
+                    <img src="/media/homepage_img.png">
+                </br>  </br>
+            </br>  </br>
+        </br>  </br>
+               
+                </div>
+    
+     
+            </div>
+           </div>
  {% endblock%}
+
+

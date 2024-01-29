@@ -21,7 +21,6 @@ class HomeView(LoginRequiredMixin,View):
                 context = {'product_not_found': True}
                 return render(request, self.template_name, context)
         context = {'product': product}
-       
         return render(request, self.template_name, context)
     
 

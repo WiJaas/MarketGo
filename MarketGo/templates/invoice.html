@@ -1,0 +1,110 @@
+
+
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+
+<!-- Invoice 1 - Bootstrap Brain Component -->
+<section class="py-3 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-8 col-xxl-7">
+          <div class="row gy-3 mb-3">
+              <div class="col-6">
+                <h2 class="text-uppercase text-endx m-0">Invoice</h2>
+              </div>
+
+          </div>
+
+
+
+
+        <div class="row mb-3">
+
+            <div class="col-12 col-sm-6 col-md-8">
+              <h4></h4>
+              <address>
+                <strong>{{order.first_name}} {{order.last_name}}</strong>
+                <br>Phone: {{order.phone}}0<br>
+                Email: {{order.email}}
+              </address>
+            </div>
+
+
+
+
+
+
+
+
+            <div class="col-12 col-sm-6 col-md-4">
+
+                <h4 class="row">
+                  <span class="col-6">Invoice #</span>
+                </h4>
+
+                <div class="row">
+              
+                  <span class="col-6">Order ID</span>
+                  <span class="col-6 text-sm-end">#{{ order.id }}</span>
+                  <span class="col-6">Invoice Date</span>
+                  <span class="col-6 text-sm-end">{{ order.created_at }}</span>
+                </div>
+
+
+            </div>
+        </div>
+
+
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="text-uppercase">Qty</th>
+                      <th scope="col" class="text-uppercase">Product</th>
+                      <th scope="col" class="text-uppercase text-end">Unit Price</th>
+                      <th scope="col" class="text-uppercase text-end">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    {% for order_item in order_items %}
+
+                    <tr>
+                      <th scope="row">{{ order_item.quantity }}</th>
+                      <td>{{ order_item.product.name }}</td>
+                      <td class="text-end">{{ order_item.product.price }} </td>
+                      <td class="text-end"> {{ order_item.price }} </td>
+                    </tr>
+                    {% endfor %}
+
+                 
+                   
+                   
+
+                    <tr>
+                      <th scope="row" colspan="3" class="text-uppercase text-end">Total</th>
+                      <td class="text-end">{{ order.paid_amount }} dh</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

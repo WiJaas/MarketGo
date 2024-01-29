@@ -1,26 +1,26 @@
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="color: #80dab4;">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">MarketGo</a>
+        <a class="navbar-brand" href="{% url 'product:home_view' %}"><img src="\media\logo.png" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 {% if user.is_authenticated %}
+                    {% if request.path == '/core/login/' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'product:home_view' %}">Home</a></li>
+                    {% else %}
+            
+
                 <li class="nav-item"><a href="{% url 'product:home_view' %}" class="nav-link active" aria-current="page" >Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">My account</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'core:logout' %}">Logout</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                    </ul>
-                </li>
+               
+                {% endif %}
             </ul>
-            <div class="input-group-prepend" style="background-color: #e3f2fd;">
-                <span class="input-group-text" id="basic-addon1">@ {{ user.username }}</span>
+
+
+            <div class="input-group-prepend" style="background-color: #e3f2fd; margin-right: 10px;">
+                <span class="input-group-text" id="basic-addon1">@ {{ user.username }}     </span>
               </div>
               <form method="get" action="{% url 'cart:cart_detail' %}">
                 {% csrf_token %}
@@ -32,9 +32,13 @@
             </form>
            
             {% else %}
-            <li class="nav-item"><a class="nav-link" href="{%url 'core:login'%}">Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="{%url 'core:register'%}">Register</a></li>
+                {% if request.path == '/core/login/' %}
+                <li class="nav-item"><a class="nav-link" href="{%url 'core:register'%}">Register</a></li>
+                {% elif request.path == '/core/register/' %}
+                <li class="nav-item"><a class="nav-link" href="{%url 'core:login'%}">Login</a></li>
+                {% endif %}
             {% endif%}
+            
         </div>
     </div>
 </nav>

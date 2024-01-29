@@ -24,10 +24,16 @@ class Product(models.Model):
             return f"{self.id} -{self.name} ({self.category}) - ${self.price:.2f} - {self.description[:50]}... - Barcode: {self.barcode} - Weight: {self.weight} kg"
         else:
             return f"{self.id} -{self.name} ({self.category}) - ${self.price:.2f} - {self.description[:50]}... - Barcode: {self.barcode} - Stock Quantity: {self.stock_quantity}"
-        
-    def reduce_stock(self, quantity):
-        if self.stock_quantity >= quantity:
-            self.stock_quantity -= quantity
+
+    def update_stock(self, quantity_change):
+
+        if quantity_change >= 0:
+            new_stock_quantity = self.stock_quantity - quantity_change
+        else :
+            quantity_change =  abs(quantity_change)
+            new_stock_quantity = self.stock_quantity + quantity_change
+
+        if new_stock_quantity >= 0:
+            self.stock_quantity = new_stock_quantity
             self.save()
             return True
-        return False

@@ -2,68 +2,92 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
-    <form method="post" action="{% url 'checkout:checkout' %}" class="row g-3">
+<div class="container">
+    <form action="{% url 'checkout:checkout' %}" method="POST" class="row g-3">
         {% csrf_token %}
-        {% if user.is_authenticated %}
-            <input type="hidden" name="user_id" value="{{ user.id }}">
-        {% endif %}
-        <div class="col-md-8">
-            <h1 class="mb-5">Checkout</h1>
 
-            <div class="mb-4">
-                <h2 class="mb-3">Contact Information</h2>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="id_first_name" class="form-label">First Name</label>
-                        <input id="id_first_name" name="first_name" value="{{ user.first_name }}">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="id_last_name" class="form-label">Last Name</label>
-                        <input id="id_last_name" name="last_name" value="{{ user.last_name }}">
-                    </div>
-                    <div class="col-12">
-                        <label for="id_email" class="form-label">Email</label>
-                        <input id="id_email" name="email" value="{{ user.email }}">
-                    </div>
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge badge-secondary badge-pill">3</span>
+            </h4>
+
+            <div class="table-responsive order_table checkout">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart %}
+                        <tr>
+                            <td>
+                                <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                    class="img-fluid mb-3" height="100px" width="100px">
+                                <h6 class="w-160 mb-5">{{ item.product.name }}</h6>
+                            </td>
+                            <td>
+                                <h6 class="text-muted">{{ item.quantity }}</h6>
+                            </td>
+                            <td>
+                                <h5 class="text-muted">{{ item.price }} dh</h5>
+                            </td>
+                            <td>
+                                <h5 class="text-brand">{{ item.total_price }} dh</h5>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-flex align-items-end justify-content-between mb-3">
+                <h6 class="text-muted">Total:</h6>
+                <h6 class="text-brand">{{ cart.get_total_price }} dh</h6>
+            </div>
+        </div>
+
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_first_name" class="form-label">First Name</label>
+                    <input id="id_first_name" name="first_name" value="{{ user.first_name }}" class="form-control"
+                        required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="id_last_name" class="form-label">Last Name</label>
+                    <input id="id_last_name" name="last_name" value="{{ user.last_name }}" class="form-control"
+                        required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email</label>
+                <input id="id_email" name="email" value="{{ user.email }}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_phone" class="form-label">Phone</label>
+                <input type="text" id="id_phone" name="phone" class="form-control"  value="{{ form.phone.value | default:'' }}" required>
+            </div>
             
-                
-                    <div class="col-12">
-                        <label for="id_phone" class="form-label">Phone</label>
-                        {{ form.phone }}
-                    </div>
-                    <!-- Add more fields if needed -->
-                </div>
-            </div>
+            <input type="hidden" name="paid_amount" value="{{ cart.get_total_price }}">
 
+            <!-- Payment -->
             <div class="mb-4">
-                <h2 class="mb-3">Payment Information</h2>
-                <div class="form-check">
-                    {{ form.payment_method }}
-                    <label class="form-check-label" for="id_payment_method">
-                        {{ form.payment_method.label_tag }}
-                    </label>
+                <h4 class="mb-3">Payment</h4>
+                <div class="col-12 mt-4">
+                    <button class="btn btn-primary">Confirm Checkout</button>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="bg-light p-4 rounded">
-                <h2 class="mb-4">Summary</h2>
-                <!-- Display order details here -->
-                {% for item in cart %}
-                    <p>{{ item.product.name }} x {{ item.quantity }} - {{ item.price }}</p>
-                {% endfor %}
-                <p class="fw-bold">Total: {{ cart.get_total_price }}</p>
-            </div>
-        </div>
-
-        <div class="col-12 mt-4">
-            <button class="btn btn-primary">
-                Confirm Checkout
-            </button>
         </div>
     </form>
 </div>
+</br></br>
 {% endblock %}
-
